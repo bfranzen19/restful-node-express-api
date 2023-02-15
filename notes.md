@@ -128,6 +128,7 @@ app.get("/", (req, res) => {
 app.listen(PORT, () => console.info(`server running: ${PORT}`));
 ```
 
+
 ### initial server files & folders
 #### rearranging the folder structure
 * create a `src` folder
@@ -162,8 +163,43 @@ mkdir src/routes
 touch src/controllers/crmController.js src/models/crmModel.js src/routes/crmRoutes.js
 ```
 
+
 ### basic routing endpoints
-#### 
+#### routes
+* we need routes to be able to call a url and get something back in a web application
+* call a route and go to a specific page or can use routes to define endpoints in an app
+
+#### `index.js`
+* import routes
+* run the routes inside of the app
+```javascript
+import routes from "./src/routes/crmRoutes";
+
+const app = express();
+routes(app);
+```
+
+#### `crmRoutes.js`
+* create a function called `routes()` that takes in the `app`
+* export the `routes` function
+* create the `/contact` route
+    * allows us to have `CRUD` commands with that endpoint
+    * in this endpoint, we'll have `GET`, `POST`
+* create a route for `/contact/:contactId`
+    * in this endpoint, we'll have `PUT`, `DELETE`
+```javascript
+const routes = (app) => {
+    app.route("/contact")
+        .get((req, res) => res.send("GET request successful"))
+        .post((req, res) => res.send("POST request successful"));
+
+    app.route("/contact/:contactId")
+        .put((req, res) => res.send("PUT request successful"))
+        .delete((req, res) => res.send("DELETE request successful"));
+};
+
+export default routes;
+```
 
 
 ### basics of middleware and uses
