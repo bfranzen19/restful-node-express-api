@@ -203,7 +203,29 @@ export default routes;
 
 
 ### basics of middleware and uses
-#### 
+#### middleware
+* functions that have access to the `request` and `response` objects in the application and can run their code there
+* can make changes to the `request` and `response` objects, can end them, can call another function in the stack using `next()` functions
+* often used to call other functions
+
+#### adding middleware to `crmRoutes.js`
+* this example will be a `console.log()` of the `request` -- shouldn't do in reality, just for the example
+```javascript
+const routes = (app) => {
+    app.route("/contact")
+        .get(
+            (req, res, next) => { // have to pass in next
+                console.log(    // middleware example
+                    `request from ${req.originalUrl} 
+                    \nrequest type: ${req.method}`
+                );
+                next(); // tells it to move on to the next function
+            },
+            (req, res, next) => { // have to pass in next
+                res.send("GET request successful"); // calls the next function
+            }
+        )};
+```
 
 
 
