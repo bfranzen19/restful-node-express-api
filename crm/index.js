@@ -1,7 +1,9 @@
 import express from "express";
+import routes from "./src/routes/crmRoutes";
 
-const app = express();
 const PORT = 3000;
+const app = express();
+routes(app);
 
 /* ENDPOINTS */
 app.get("/", (req, res) => {
