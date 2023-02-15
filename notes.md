@@ -94,7 +94,7 @@ touch .babelrc
 * `DELETE` - deletes the data
 
 
-### inital server setup
+### initial server setup
 #### changing the `start` script
 * create a `start` script in the `package.json` `"scripts"` object
 ```bash
@@ -128,9 +128,39 @@ app.get("/", (req, res) => {
 app.listen(PORT, () => console.info(`server running: ${PORT}`));
 ```
 
-### inital server files & folders
-#### 
+### initial server files & folders
+#### rearranging the folder structure
+* create a `src` folder
+```bash
+cd crm
+mkdir src
+```
 
+* inside of `src`, create a `controllers` folder
+    * `controllers` are functions that will allow us to get info to the endpoints and forward it to whatever is calling it
+```bash
+mkdir src/controllers
+```
+
+* inside of `src`, create a `models` folder
+    * the schema models for the database
+```bash
+mkdir src/models
+```
+
+* inside of `src`, create a `routes` folder
+    * basically the endpoints
+```bash
+mkdir src/routes
+```
+
+* create the files for each folder
+    * `src/controllers/crmController.js`
+    * `src/models/crmModel.js`
+    * `src/routes/crmRoutes.js`
+```bash
+touch src/controllers/crmController.js src/models/crmModel.js src/routes/crmRoutes.js
+```
 
 ### basic routing endpoints
 #### 
