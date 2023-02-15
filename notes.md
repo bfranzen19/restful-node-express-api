@@ -85,7 +85,14 @@ touch .babelrc
 
 ## 2. INITIAL SERVER BUILD
 ### RESTful APIs refresher
-#### 
+#### RESTful APIs
+* a way to do transactions with a backend using HTTP protocols
+* `GET`, `POST`, `PUT`, `DELETE` calls to the backend
+* interacting with endpoints created on the backend
+* `GET` - fetches data, no body, uses url params
+* `POST` - adds data, has body
+* `PUT` - updates the existing data
+* `DELETE` - deletes the data
 
 
 ### inital server setup
