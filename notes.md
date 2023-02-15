@@ -85,7 +85,6 @@ touch .babelrc
 
 ## 2. INITIAL SERVER BUILD
 ### RESTful APIs refresher
-#### RESTful APIs
 * a way to do transactions with a backend using HTTP protocols
 * `GET`, `POST`, `PUT`, `DELETE` calls to the backend
 * interacting with endpoints created on the backend
@@ -96,8 +95,38 @@ touch .babelrc
 
 
 ### inital server setup
-#### 
+#### changing the `start` script
+* create a `start` script in the `package.json` `"scripts"` object
+```bash
+"scripts": {
+    "start": "ndoemon ./index.js --exec babel-node"
+},
+```
 
+* create the `index.js` file in the `crm` root
+```bash
+cd crm
+touch index.js
+```
+
+* creating the server file
+    * import `express` and use it
+    * create the `PORT` constant
+    * create the endpoints
+```javascript
+import express from "express";
+
+const app = express();
+const PORT = 3000;
+
+/* ENDPOINTS */
+app.get("/", (req, res) => {
+    res.send(`node & express server is running on ${PORT}`);
+});
+
+/* SERVER */
+app.listen(PORT, () => console.info(`server running: ${PORT}`));
+```
 
 ### inital server files & folders
 #### 
