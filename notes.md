@@ -457,10 +457,30 @@ const routes = (app) => {
 
 ## 5. OTHER API OPTIONS
 ### static file serving
-#### 
+#### serving images
+* express can serve static files
+* images, files, etc
+* create a new `public` folder in the project root
+* move images into the `public` folder
+```bash
+cd crm
+mkdir public
+```
+
+* in `index.js`, add a line to allow `express` to access the static folder
+```javascript
+app.use(express.static('public'));
+```
+
+* check the image by going to `localhost:3000/image_name.extension`
+    * example: `http://localhost:3000/riot_10wks.jpg`
 
 
 ### other potential libraries for APIs
-#### 
-
+#### others
+* [koa](koajs.com)
+    * generators instead of callbacks
+    * no middleware to make library smaller
+* [swagger](swagger.io)
+* [loopback](loopback.io)
 
