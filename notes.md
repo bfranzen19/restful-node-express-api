@@ -231,7 +231,20 @@ const routes = (app) => {
 
 ## 3. DATABASE SETUP
 ### `mongoDB` basics refresher
-#### 
+#### `mongoDB`
+[DATABASE] -->> [COLLECTIONS] -->> [DOCUMENTS] -->> [DATA]
+* a `mongoDB` database is one big object containing collections
+* each collection could be a contextual item (like contacts)
+* inside of collections are documents (objects, like individual contacts)
+* each document contains the data, which looks like `JSON` with a `key`: `value` pair or arrays of items
+* `mongoose` allows us to set up a schema for a collection
+    * predefined what each `key`: `value` pair takes as a type
+
+#### [`robomongo and studio 3T`](https://robomongo.org/)
+* used to test the database and make sure the data we have in there matches the calls to the endpoints
+* download & install `studio 3T`
+* click connect
+* enter `localhost:27017` as the uri
 
 
 ### database setup
