@@ -248,18 +248,64 @@ const routes = (app) => {
 
 
 ### database setup
-#### 
+#### `index.js` for `body-parser` and `mongoose`
+* `mongoose.set("strictQuery", false)` has to be before the connection to clear a deprication warning
+* using promises to make things async
+* `body-parser` allows us to access the responses to be easier to manage
+```javascript
+import mongoose, {mongo} from "mongoose";
+import bodyParser from "body-parser";
+
+/* MONGOOSE */
+mongoose.set("strictQuery", false);
+mongoose.Promise = global.Promise;
+mongoose.connect("mongodb://localhost/CRMdb", {useNewUrlParser: true});
+
+/* BODY PARSER */
+app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.json());
+```
 
 
 ### schema setup
-#### 
+#### `mongoose` in `crmModel.js`
+* dictates the types of data and the structure of data that the db will accept
+* defines the rules to what the db can accept
+```javascript
+import mongoose from "mongoose";
+
+const Schema = mongoose.Schema;
+
+export const ContactSchema = new Schema({
+    firstName: {
+        type: String,
+        required: "Enter a first name."
+    },
+    lastName: {
+        type: String,
+        required: "Enter a last name."
+    },
+    email: {
+        type: String
+    },
+    company: {
+        type: String
+    },
+    phone: {
+        type: Number
+    },
+    created_date: {
+        type: Date,
+        default: Date.now
+    }
+});
+```
 
 
 
 ## 4. CRUD OPERATIONS
 ### create `POST` endpoint
 #### 
-
 
 ### create all items `GET` endpoint
 #### 
