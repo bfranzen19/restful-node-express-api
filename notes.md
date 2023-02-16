@@ -231,22 +231,81 @@ const routes = (app) => {
 
 ## 3. DATABASE SETUP
 ### `mongoDB` basics refresher
-#### 
+#### `mongoDB`
+[DATABASE] -->> [COLLECTIONS] -->> [DOCUMENTS] -->> [DATA]
+* a `mongoDB` database is one big object containing collections
+* each collection could be a contextual item (like contacts)
+* inside of collections are documents (objects, like individual contacts)
+* each document contains the data, which looks like `JSON` with a `key`: `value` pair or arrays of items
+* `mongoose` allows us to set up a schema for a collection
+    * predefined what each `key`: `value` pair takes as a type
+
+#### [`robomongo and studio 3T`](https://robomongo.org/)
+* used to test the database and make sure the data we have in there matches the calls to the endpoints
+* download & install `studio 3T`
+* click connect
+* enter `localhost:27017` as the uri
 
 
 ### database setup
-#### 
+#### `index.js` for `body-parser` and `mongoose`
+* `mongoose.set("strictQuery", false)` has to be before the connection to clear a deprication warning
+* using promises to make things async
+* `body-parser` allows us to access the responses to be easier to manage
+```javascript
+import mongoose, {mongo} from "mongoose";
+import bodyParser from "body-parser";
+
+/* MONGOOSE */
+mongoose.set("strictQuery", false);
+mongoose.Promise = global.Promise;
+mongoose.connect("mongodb://localhost/CRMdb", {useNewUrlParser: true});
+
+/* BODY PARSER */
+app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.json());
+```
 
 
 ### schema setup
-#### 
+#### `mongoose` in `crmModel.js`
+* dictates the types of data and the structure of data that the db will accept
+* defines the rules to what the db can accept
+```javascript
+import mongoose from "mongoose";
+
+const Schema = mongoose.Schema;
+
+export const ContactSchema = new Schema({
+    firstName: {
+        type: String,
+        required: "Enter a first name."
+    },
+    lastName: {
+        type: String,
+        required: "Enter a last name."
+    },
+    email: {
+        type: String
+    },
+    company: {
+        type: String
+    },
+    phone: {
+        type: Number
+    },
+    created_date: {
+        type: Date,
+        default: Date.now
+    }
+});
+```
 
 
 
 ## 4. CRUD OPERATIONS
 ### create `POST` endpoint
 #### 
-
 
 ### create all items `GET` endpoint
 #### 
