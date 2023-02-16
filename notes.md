@@ -305,24 +305,155 @@ export const ContactSchema = new Schema({
 
 ## 4. CRUD OPERATIONS
 ### create `POST` endpoint
-#### 
+#### create the controller in `crmControllers.js`
+* these functions will send the data to the database / update the data
+* use the endpoint as the portal to all of this
+* import mongoose, schema (model)
+* create the `POST` controller (`addNewContact`)
+```javascript
+import mongoose from "mongoose";
+import {ContactSchema} from "../models/crmModel";
+
+const Contact = mongoose.model("Contact", ContactSchema); // holds the model
+
+export const addNewContact = (req, res) => {    // POST
+    let newContact = new Contact(req.body);
+
+    newContact.save((err, contact) => {
+        if (err) res.send(err);     // send the error
+        res.json(contact);          // send the contact as json
+    });
+};
+```
+
+#### pass the function to the endpoint in `crmRoutes.js`
+* pass `addNewContact()` to the `POST` endpoint
+* delete the response because the `controller` does the response now
+```javascript
+import {addNewContact} from "../controllers/crmController";
+
+const routes = (app) => {
+    app.route("/contact/:contactId")
+        .put((req, res) => res.send("PUT request successful"))
+        .delete((req, res) => res.send("DELETE request successful"));
+};
+```
 
 ### create all items `GET` endpoint
-#### 
+#### `crmController.js` new controller
+* use the Contact to find everything (empty params)
+* send the error if found, othwerwise send the contact
+```javascript
+export const getContracts = (req, res) => {
+    Contact.find({}, (err, contact) => {
+        if (err) res.send(err);
+        res.json(contact);
+    });
+};
+```
+
+#### `crmRoutes.js` pass the controller to the endpoint
+* import `getContracts()` and pass it to the `GET`
+* leave the middleware example and, instead of a second function, pass in `getContacts`
+```javascript
+import {addNewContact, getContacts} from "../controllers/crmController";
+
+const routes = (app) => {
+    app.route("/contact")
+        .get((req, res, next) => {
+            console.log(`request from ${req.originalUrl}`);
+            console.log(`request type: ${req.method}`);
+            next();
+        }, getContacts)
+}
+```
 
 
 ### create specific id `GET` endpoint
-#### 
+#### create the controller function
+* this will use an `id` to find the document
+```javascript
+export const getContactById = (req, res) => {
+    Contact.findById(req.params.contactId, (err, contact) => {
+        if (err) res.send(err);
+        res.json(contact);
+    });
+};
+```
 
+#### pass the controller function to the endpoint
+```javascript
+import {
+    ...
+     getContactById
+    } from "../controllers/crmController";
+
+const routes = (app) => {
+    ...
+    app.route("/contact/:contactId").get(getContactById);
+};
+```
 
 ### create `PUT` endpoint
-#### 
+#### create update function
+* get the `_id` from params
+* pass the `body`
+* `{new: true}` -- option to allow the response to send the new information that was updated
+```javascript
+export const updateContact = (req, res) => {
+    Contact.findOneAndUpdate(
+        {_id: req.params.contactId},
+        req.body,
+        {new: true},
+        (err, contact) => {
+            if (err) res.send(err);
+            res.json(contact);
+        }
+    );
+};
 
+```
+
+#### pass update function to endpoint
+```javascript
+import {
+    ...
+    updateContact
+} from "../controllers/crmController";
+
+const routes = (app) => {
+    ...
+    app.route("/contact/:contactId")
+        .put(updateContact)
+}
+```
 
 ### create `DELETE` endpoint
-#### 
+* can't send the contact so send a message instead
+```javascript
+// crmController.js
+export const deleteContact = (req, res) => {
+    Contact.remove({_id: req.params.contactId}, (err, contact) => {
+        if (err) res.send(err);
+        res.json(`Contact removed with id ${req.params.contactId}`);
+    });
+};
+```
 
+```javascript
+// crmRoutes.js
+import {
+    ...
+    deleteContact
+} from "../controllers/crmController";
 
+const routes = (app) => {
+    ...
+    app.route("/contact/:contactId")
+        ...
+        .delete(deleteContact);
+};
+```
 
 ## 5. OTHER API OPTIONS
 ### static file serving
